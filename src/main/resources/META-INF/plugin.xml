@@ -1,0 +1,47 @@
+<idea-plugin url="https://github.com/binxio/cfnlint-plugin">
+    <id>io.binx.cfnlint.plugin</id>
+    <name>cfn-lint</name>
+    <version>0.1.0</version>
+    <category>Web</category>
+    <vendor email="info@binx.io" url="https://github.com/binxio/">binx.io</vendor>
+
+    <description><![CDATA[
+    Analyze CloudFormation templates with cfn-lint
+    ]]></description>
+
+    <change-notes><![CDATA[
+       <p>0.1.0 First experimental version based upon <a href="https://github.com/pwielgolaski/shellcheck-plugin">shellcheck</a></p>
+    ]]></change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="145"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceImplementation="io.binx.cfnlint.plugin.settings.Settings"/>
+        <projectConfigurable instance="io.binx.cfnlint.plugin.settings.SettingsPage"/>
+        <localInspection language="CloudFormation" shortName="cfn-lint"
+                         enabledByDefault="true" level="ERROR"
+                         bundle="io.binx.cfnlint.plugin.Bundle"
+                         implementationClass="io.binx.cfnlint.plugin.Inspection"
+                         displayName="AWS CloudFormation lint" groupKey="inspection.group.name"/>
+        <externalAnnotator language="YAML" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
+        <externalAnnotator language="TEXT" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
+        <externalAnnotator language="JSON" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
+        <externalAnnotator language="CloudFormation" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
+    </extensions>
+
+    <project-components>
+        <!-- Add your project components here -->
+        <component>
+            <implementation-class>io.binx.cfnlint.plugin.CheckProjectComponent</implementation-class>
+        </component>
+    </project-components>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+</idea-plugin>
