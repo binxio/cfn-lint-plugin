@@ -22,9 +22,15 @@ intellij {
 
 patchPluginXml {
     changeNotes """
-       <p>0.1.0 First experimental version based upon <a href="https://github.com/pwielgolaski/shellcheck-plugin">shellcheck</a></p>
+       <p>0.1.2 official build for 2018.2</p>
        <p>0.1.1 updated to support from build 181 and upwards</p>
+       <p>0.1.0 First experimental version based upon <a href="https://github.com/pwielgolaski/shellcheck-plugin">shellcheck</a></p>
     """
+}
+
+publishPlugin {
+  username intellijPublishUsername
+  password intellijPublishPassword
 }
 
 apply plugin: 'org.jetbrains.intellij'
