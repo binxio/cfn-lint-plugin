@@ -1,7 +1,7 @@
-<idea-plugin url="https://github.com/binxio/cfnlint-plugin">
+<idea-plugin url="https://github.com/binxio/cfn-lint-plugin">
     <id>io.binx.cfnlint.plugin</id>
     <name>cfn-lint</name>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <category>Web</category>
     <vendor email="info@binx.io" url="https://github.com/binxio/">binx.io</vendor>
 
@@ -11,10 +11,11 @@
 
     <change-notes><![CDATA[
        <p>0.1.0 First experimental version based upon <a href="https://github.com/pwielgolaski/shellcheck-plugin">shellcheck</a></p>
+       <p>0.1.1 updated to support from build 181 and upwards</p>
     ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="145"/>
+    <idea-version since-build="181"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
     <depends>com.intellij.modules.lang</depends>

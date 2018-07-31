@@ -18,11 +18,15 @@ dependencies {
 
 intellij {
     version '2018.1.4'
+    intellij.updateSinceUntilBuild false //Disables updating since-build attribute in plugin.xml
 }
+
 patchPluginXml {
     changeNotes """
-      first release. work in progress.
+       <p>0.1.0 First experimental version based upon <a href="https://github.com/pwielgolaski/shellcheck-plugin">shellcheck</a></p>
+       <p>0.1.1 updated to support from build 181 and upwards</p>
     """
 }
 
+apply plugin: 'org.jetbrains.intellij'
 apply plugin: "io.freefair.git-version"
