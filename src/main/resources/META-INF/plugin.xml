@@ -23,15 +23,13 @@
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="io.binx.cfnlint.plugin.settings.Settings"/>
         <projectConfigurable instance="io.binx.cfnlint.plugin.settings.SettingsPage"/>
-        <localInspection language="CloudFormation" shortName="cfn-lint"
+        <localInspection language="yaml" shortName="cfn-lint"
                          enabledByDefault="true" level="ERROR"
                          bundle="io.binx.cfnlint.plugin.Bundle"
                          implementationClass="io.binx.cfnlint.plugin.Inspection"
                          displayName="AWS CloudFormation lint" groupKey="inspection.group.name"/>
-        <externalAnnotator language="YAML" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
-        <externalAnnotator language="TEXT" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
+        <externalAnnotator language="yaml" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
         <externalAnnotator language="JSON" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
-        <externalAnnotator language="CloudFormation" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
     </extensions>
 
     <project-components>

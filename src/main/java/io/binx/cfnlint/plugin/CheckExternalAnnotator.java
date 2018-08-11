@@ -155,12 +155,16 @@ public class CheckExternalAnnotator extends
     }
 
     private static boolean isFile(PsiFile file) {
-        // TODO move to settings?
-        List<String> acceptedExtensions = Arrays.asList("yml", "yaml", "json");
-        boolean isCloudFormation = file.getFileType().getName().equals("CloudFormation");
-        String fileExtension = Optional.ofNullable(file.getVirtualFile()).map(VirtualFile::getExtension).orElse("");
-        return isCloudFormation || acceptedExtensions.contains(fileExtension);
+        String fileType = file.getFileType().getName().toLowerCase();
+        switch(fileType) {
+            case "yaml":
+            case "json":
+                return file.getText().contains("AWSTemplateFormatVersion");
+            default:
+                return false;
+        }
     }
+
 }
 
 
