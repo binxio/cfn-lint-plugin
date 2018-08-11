@@ -155,10 +155,16 @@ public class CheckExternalAnnotator extends
     }
 
     private static boolean isFile(PsiFile file) {
-        List<String> acceptedFileTypes = Arrays.asList("yaml", "json");
-        String fileType = file.getFileType().getName();
-        return acceptedFileTypes.contains(fileType.toLowerCase());
+        String fileType = file.getFileType().getName().toLowerCase();
+        switch(fileType) {
+            case "yaml":
+            case "json":
+                return file.getText().contains("AWSTemplateFormatVersion");
+            default:
+                return false;
+        }
     }
+
 }
 
 
