@@ -11,6 +11,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.TextFieldWithHistory;
 import com.intellij.ui.TextFieldWithHistoryWithBrowseButton;
+import com.intellij.util.NotNullProducer;
 import com.intellij.util.ui.SwingHelper;
 import com.intellij.util.ui.UIUtil;
 import io.binx.cfnlint.plugin.Bundle;
@@ -22,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import java.awt.event.ItemEvent;
+import java.io.File;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class SettingsPage implements Configurable {
@@ -88,7 +91,12 @@ public class SettingsPage implements Configurable {
         textFieldWithHistory.setHistorySize(-1);
         textFieldWithHistory.setMinimumAndPreferredWidth(0);
 
-        SwingHelper.addHistoryOnExpansion(textFieldWithHistory, Finder::findAllExe);
+        SwingHelper.addHistoryOnExpansion(textFieldWithHistory, new NotNullProducer<List<String>>() {
+            @NotNull
+            public List<String> produce() {
+                return Finder.findAllExe();
+            }
+        });
         SwingHelper.installFileCompletionAndBrowseDialog(project, exeField, "Select Exe", FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor());
     }
 
