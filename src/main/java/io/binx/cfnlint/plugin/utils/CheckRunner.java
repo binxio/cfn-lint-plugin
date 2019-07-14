@@ -34,9 +34,14 @@ public final class CheckRunner {
         CheckResult result;
         try {
             File path = new File(new File(cwd), file);
-            GeneralCommandLine commandLine = createCommandLine(exe, cwd)
-                    .withInput(content)
-                    .withParameters("-f", "json", "-t", file);
+            GeneralCommandLine commandLine = createCommandLine(exe, cwd);
+            if (content == null) {
+                commandLine = commandLine.withParameters("-f", "json", "-t", file);
+            } else {
+                commandLine = ((CommandLineWithInput) commandLine)
+                        .withInput(content)
+                        .withParameters("-f", "json", "-t", "-");
+            }
             ProcessOutput out = execute(commandLine);
             try {
                 result = new CheckResult(parse(out.getStdout()), out.getStderr());
