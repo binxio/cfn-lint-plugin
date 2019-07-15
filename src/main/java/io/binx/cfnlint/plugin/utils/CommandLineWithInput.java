@@ -1,6 +1,5 @@
 package io.binx.cfnlint.plugin.utils;
 
-import com.google.common.io.CharSource;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +23,7 @@ public class CommandLineWithInput extends GeneralCommandLine {
         Process process = super.createProcess();
         if (input != null) {
             try (OutputStream stdin = process.getOutputStream()) {
-                CharSource.wrap(input).asByteSource(StandardCharsets.UTF_8).copyTo(stdin);
+                stdin.write(input.getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
