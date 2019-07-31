@@ -22,6 +22,7 @@ intellij {
 
 patchPluginXml {
     changeNotes """
+       <p>0.1.6 fix Broken pipe errors by Philippe Jandot</p>
        <p>0.1.5 official build for 2019.1</p>
        <p>0.1.3 process all json and yaml files with "AWSTemplateFormatVersion" in it</p>
        <p>0.1.2 official build for 2018.2</p>

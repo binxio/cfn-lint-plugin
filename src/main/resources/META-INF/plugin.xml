@@ -10,8 +10,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
-       <p>0.1.0 First experimental version based upon <a href="https://github.com/pwielgolaski/shellcheck-plugin">shellcheck</a></p>
+       <p>0.1.6 fix Broken pipe errors by Philippe Jandot</p>
+       <p>0.1.5 official build for 2019.1</p>
+       <p>0.1.3 process all json and yaml files with "AWSTemplateFormatVersion" in it</p>
+       <p>0.1.2 official build for 2018.2</p>
        <p>0.1.1 updated to support from build 181 and upwards</p>
+       <p>0.1.0 First experimental version based upon <a href="https://github.com/pwielgolaski/shellcheck-plugin">shellcheck</a></p>
     ]]></change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
