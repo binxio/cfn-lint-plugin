@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.13'
+    id 'org.jetbrains.intellij' version '0.4.14'
     id 'io.freefair.git-version' version '2.5.9'
 }
 
@@ -19,11 +19,12 @@ dependencies {
 }
 
 intellij {
-    version '2019.2'
+    version '2019.3'
 }
 
 patchPluginXml {
     changeNotes """
+       <p>0.1.8 support IntelliJ 2019.3</p>
        <p>0.1.7 support IntelliJ 2019.2</p>
        <p>0.1.6 fix Broken pipe errors by Philippe Jandot</p>
        <p>0.1.5 official build for 2019.1</p>
