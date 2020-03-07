@@ -19,7 +19,7 @@ dependencies {
 }
 
 intellij {
-    version '2019.3'
+    version 'LATEST-EAP-SNAPSHOT'
 }
 
 patchPluginXml {
