@@ -19,11 +19,12 @@ dependencies {
 }
 
 intellij {
-    version '2019.3.3'
+    version '2019.3.4'
 }
 
 patchPluginXml {
     changeNotes """
+       <p>0.1.10 support IntelliJ 2019.3.4</p>
        <p>0.1.9 support IntelliJ 2019.3.3</p>
        <p>0.1.8 support IntelliJ 2019.3</p>
        <p>0.1.7 support IntelliJ 2019.2</p>
