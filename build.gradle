@@ -1,12 +1,12 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.16'
+    id 'org.jetbrains.intellij' version '0.4.22'
     id 'io.freefair.git-version' version '4.1.6'
 }
 
 group 'io.binx.cfnlint.plugin'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.11
 
 buildSearchableOptions.enabled = false
 
@@ -19,11 +19,12 @@ dependencies {
 }
 
 intellij {
-    version '2020.2.2'
+    version '2020.3'
 }
 
 patchPluginXml {
     changeNotes """
+       <p>0.1.17 support IntelliJ 2020.3</p>
        <p>0.1.16 support IntelliJ 2020.2.2</p>
        <p>0.1.15 support IntelliJ 2020.2</p>
        <p>0.1.14 support IntelliJ 2020.1.4</p>
