@@ -1,12 +1,12 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.16'
+    id 'org.jetbrains.intellij' version '0.4.22'
     id 'io.freefair.git-version' version '4.1.6'
 }
 
 group 'io.binx.cfnlint.plugin'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.11
 
 buildSearchableOptions.enabled = false
 
