@@ -37,7 +37,7 @@ patchPluginXml {
 }
 
 publishPlugin {
-  token "intellijPublishToken"
+  token intellijPublishToken
 }
 
 apply plugin: 'org.jetbrains.intellij'
