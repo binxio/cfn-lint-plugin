@@ -5,6 +5,7 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -23,7 +24,7 @@ public class Settings implements PersistentStateComponent<Settings> {
     }
 
     @Override
-    public void loadState(Settings state) {
+    public void loadState(@NotNull Settings state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 
