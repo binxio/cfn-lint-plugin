@@ -73,7 +73,7 @@ public class CheckProjectComponent implements com.intellij.openapi.components.Pr
     }
 
     private void validationFailed(String msg) {
-        NotificationListener notificationListener = (notification, event) -> new SettingsPage(project, settings).showSettings();
+        NotificationListener notificationListener = (notification, event) -> new SettingsPage(project).showSettings();
         String errorMessage = msg + Bundle.message("settings.fix");
         showInfoNotification(errorMessage, NotificationType.WARNING, notificationListener);
         LOG.debug(msg);

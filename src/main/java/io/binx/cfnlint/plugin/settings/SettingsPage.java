@@ -39,9 +39,9 @@ public class SettingsPage implements Configurable {
     private JLabel exeLabel;
     private TextFieldWithHistoryWithBrowseButton exeField;
 
-    public SettingsPage(@NotNull final Project project, @NotNull Settings settings) {
+    public SettingsPage(@NotNull final Project project) {
         this.project = project;
-        this.settings = settings;
+        this.settings = project.getService(Settings.class);
         initField();
     }
 
