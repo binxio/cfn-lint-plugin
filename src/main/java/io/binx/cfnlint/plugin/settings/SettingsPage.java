@@ -48,7 +48,7 @@ public class SettingsPage implements Configurable {
     private void addListeners() {
         pluginEnabledCheckbox.addItemListener(e -> setEnabledState(e.getStateChange() == ItemEvent.SELECTED));
         DocumentAdapter docAdp = new DocumentAdapter() {
-            protected void textChanged(DocumentEvent e) {
+            protected void textChanged(@NotNull DocumentEvent e) {
                 updateLaterInEDT();
             }
         };
