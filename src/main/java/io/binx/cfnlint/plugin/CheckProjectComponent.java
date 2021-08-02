@@ -11,8 +11,8 @@ import io.binx.cfnlint.plugin.settings.SettingsPage;
 import org.jetbrains.annotations.NotNull;
 
 public class CheckProjectComponent implements com.intellij.openapi.components.ProjectComponent {
-    private Project project;
-    private Settings settings;
+    private final Project project;
+    private final Settings settings;
     private boolean settingValidStatus;
     private int settingHashCode;
 

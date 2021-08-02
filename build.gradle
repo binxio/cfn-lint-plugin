@@ -1,29 +1,30 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.7.2'
-    id 'io.freefair.git-version' version '4.1.6'
+    id 'org.jetbrains.intellij' version '1.1.4'
+    id 'io.freefair.git-version' version '5.3.3.3'
 }
 
 group 'io.binx.cfnlint.plugin'
-
-sourceCompatibility = 1.11
-
-buildSearchableOptions.enabled = false
 
 repositories {
     mavenCentral()
 }
 
+sourceCompatibility = 1.11
+
+buildSearchableOptions.enabled = false
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation('junit:junit:4.13.2')
 }
 
 intellij {
-    version '2021.1'
+    version.set('2021.2')
 }
 
 patchPluginXml {
-    changeNotes """
+    changeNotes = """
+       <p>0.1.21 fixed IntelliJ 2021.2 support by Michael Brewer</p>
        <p>0.1.20 fixed IntelliJ 2021.1 support by Philippe Jandot</p>
        <p>0.1.19 support IntelliJ 2021.1</p>
        <p>0.1.18 support IntelliJ 2020.2.4</p>

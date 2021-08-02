@@ -21,17 +21,19 @@ public class Inspection extends LocalInspectionTool implements BatchSuppressable
     }
 
     @NotNull
+    @Override
     public String getDisplayName()
     {
         return Bundle.message("inspection.display.name");
     }
 
     @NotNull
+    @Override
     public String getShortName() {
         return Bundle.message("inspection.short.name");
     }
 
-
+    @Override
     public ProblemDescriptor[] checkFile(@NotNull PsiFile file, @NotNull final InspectionManager manager, final boolean isOnTheFly) {
         return ExternalAnnotatorInspectionVisitor.checkFileWithExternalAnnotator(file, manager, isOnTheFly, new CheckExternalAnnotator());
     }
@@ -49,7 +51,7 @@ public class Inspection extends LocalInspectionTool implements BatchSuppressable
 
     @NotNull
     @Override
-    public SuppressQuickFix[] getBatchSuppressActions(@Nullable PsiElement element) {
+    public SuppressQuickFix @NotNull [] getBatchSuppressActions(@Nullable PsiElement element) {
         return new SuppressQuickFix[0];
     }
 }
