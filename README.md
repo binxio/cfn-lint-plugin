@@ -5,6 +5,10 @@
 
 Download  JAR file from [releases](https://github.com/binxio/cfn-lint-plugin/releases) section. Then follow JetBrains [Installing Plugin from Disk](https://www.jetbrains.com/help/idea/managing-plugins.html#installing-plugins-from-disk) instructions.
 
+### Install cfn-lint
+For the plugin to work, you need to install [AWS CloudFormation Linter](https://github.com/aws-cloudformation/cfn-lint) on your local machine.
+
+
 
 ## Credits
 Inspired by [shellcheck-plugin](https://github.com/pwielgolaski/shellcheck)
