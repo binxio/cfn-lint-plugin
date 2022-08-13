@@ -9,7 +9,6 @@ name: push on tag
 jobs:
   buildPlugin:
     runs-on: ubuntu-latest
-    if: github.ref == 'ref/heads/master'
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
