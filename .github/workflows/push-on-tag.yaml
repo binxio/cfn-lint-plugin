@@ -19,5 +19,5 @@ jobs:
         with:
           gradle-version: wrapper
       - run: |
-          echo intellijPublishToken=${secrets.INTELLIJPUBLISHTOKEN} >> gradle.properties
+          echo "intellijPublishToken=${{ secrets.INTELLIJPUBLISHTOKEN }}" >> gradle.properties
           gradle buildPlugin
