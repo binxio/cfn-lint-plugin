@@ -18,4 +18,6 @@ jobs:
       - uses: gradle/gradle-build-action@v2
         with:
           gradle-version: wrapper
-      - run: gradle buildPlugin
+      - run: |
+          echo intellijPublishToken=${secrets.INTELLIJPUBLISHTOKEN} >> gradle.properties
+          gradle buildPlugin
