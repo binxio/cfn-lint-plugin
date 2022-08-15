@@ -24,7 +24,7 @@ intellij {
 
 patchPluginXml {
     changeNotes = """
-       <p>0.1.24 fixed IntelliJ 2021.3 support by Philippe Jandot</p>
+       <p>0.1.24 fixed IntelliJ 2022.2 support by Philippe Jandot</p>
        <p>0.1.23 fixed IntelliJ 2022.1 support by Michael Brewer</p>
        <p>0.1.22 fixed IntelliJ 2021.3 support by Philippe Jandot</p>
        <p>0.1.21 fixed IntelliJ 2021.2 support by Michael Brewer</p>
