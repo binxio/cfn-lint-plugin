@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '1.8.0'
-    id 'io.freefair.git-version' version '6.4.2'
+    id 'org.jetbrains.intellij' version '1.10.1'
+    id 'io.freefair.git-version' version '6.6'
 }
 
 group 'io.binx.cfnlint.plugin'
@@ -19,11 +19,12 @@ dependencies {
 }
 
 intellij {
-    version.set('2022.2')
+    version.set('2022.3')
 }
 
 patchPluginXml {
     changeNotes = """
+       <p>0.1.25 fixed IntelliJ 2022.3 support by Andreas Franz</p>
        <p>0.1.24 fixed IntelliJ 2022.2 support by Philippe Jandot</p>
        <p>0.1.23 fixed IntelliJ 2022.1 support by Michael Brewer</p>
        <p>0.1.22 fixed IntelliJ 2021.3 support by Philippe Jandot</p>
