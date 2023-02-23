@@ -36,11 +36,11 @@ public final class CheckRunner {
             File path = new File(new File(cwd), file);
             GeneralCommandLine commandLine = createCommandLine(exe, cwd);
             if (content == null) {
-                commandLine = commandLine.withParameters("-f", "json", "-t", file);
+                commandLine = commandLine.withParameters("-f", "json", "--include-checks", "I", "-t", file);
             } else {
                 commandLine = ((CommandLineWithInput) commandLine)
                         .withInput(content)
-                        .withParameters("-f", "json", "-t", "-");
+                        .withParameters("-f", "json", "--include-checks", "I", "-t", "-");
             }
             ProcessOutput out = execute(commandLine);
             try {
