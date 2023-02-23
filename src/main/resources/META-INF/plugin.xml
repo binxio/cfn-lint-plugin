@@ -6,7 +6,7 @@
     <vendor email="info@binx.io" url="https://github.com/binxio/">binx.io</vendor>
 
     <description><![CDATA[
-    Analyze CloudFormation templates with cfn-lint
+    Analyze CloudFormation templates with cfn-lint. Templates must include AWSTemplateFormatVersion
     ]]></description>
 
     <change-notes><![CDATA[
