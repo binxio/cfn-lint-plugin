@@ -1,6 +1,5 @@
 package io.binx.cfnlint.plugin;
 
-import com.intellij.lang.annotation.Annotation;
 import com.intellij.lang.annotation.AnnotationHolder;
 import com.intellij.lang.annotation.ExternalAnnotator;
 import com.intellij.lang.annotation.HighlightSeverity;
@@ -20,10 +19,6 @@ import io.binx.cfnlint.plugin.utils.CheckRunner;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 public class CheckExternalAnnotator extends
         ExternalAnnotator<CheckAnnotationInput, AnnotationResult> {
@@ -95,76 +90,48 @@ public class CheckExternalAnnotator extends
     }
 
     private static HighlightSeverity getHighlightSeverity(CheckResult.Issue issue, boolean treatAsWarnings) {
-        switch (issue.level.toLowerCase()) {
-            case "error":
-                return treatAsWarnings ? HighlightSeverity.WARNING : HighlightSeverity.ERROR;
-            case "warning":
-                return HighlightSeverity.WARNING;
-            case "info":
-                return HighlightSeverity.INFORMATION;
-            default:
-                return HighlightSeverity.INFORMATION;
-        }
+        return switch (issue.level.toLowerCase()) {
+            case "error" -> treatAsWarnings ? HighlightSeverity.WARNING : HighlightSeverity.ERROR;
+            case "warning" -> HighlightSeverity.WARNING;
+            case "informational" -> HighlightSeverity.WEAK_WARNING;
+            default -> HighlightSeverity.INFORMATION;
+        };
     }
 
-    @Nullable
-    private Annotation createAnnotation(@NotNull AnnotationHolder holder, @NotNull Document document, @NotNull CheckResult.Issue issue,
-                                        @NotNull HighlightSeverity severity,
-                                        CheckProjectComponent component) {
+    private void createAnnotation(@NotNull AnnotationHolder holder, @NotNull Document document, @NotNull CheckResult.Issue issue,
+                                  @NotNull HighlightSeverity severity, CheckProjectComponent component) {
         int errorLine = issue.location.start.lineNumber - 1;
         boolean showErrorOnWholeLine = component.getSettings().highlightWholeLine;
 
         if (errorLine < 0 || errorLine >= document.getLineCount()) {
-            return null;
+            return;
         }
 
         int lineStartOffset = document.getLineStartOffset(errorLine);
         int lineEndOffset = document.getLineEndOffset(errorLine);
 
-        int errorLineStartOffset = appendNormalizeColumn(document, lineStartOffset, lineEndOffset, issue.location.start.columnNumber - 1);
-        if (errorLineStartOffset == -1) {
-            return null;
-        }
-
-        TextRange range;
         if (showErrorOnWholeLine) {
             int start = DocumentUtil.getFirstNonSpaceCharOffset(document, lineStartOffset, lineEndOffset);
-            range = new TextRange(start, lineEndOffset);
+            TextRange range = new TextRange(start, lineEndOffset);
+            holder.newAnnotation(severity, issue.getFormattedMessage()).range(range).create();
         } else {
-            range = new TextRange(errorLineStartOffset, errorLineStartOffset + 1);
-        }
-
-        Annotation annotation = holder.createAnnotation(severity, range, ": " + issue.getFormattedMessage());
-        if (annotation != null) {
-            annotation.setAfterEndOfLine(errorLineStartOffset == lineEndOffset);
-        }
-        return annotation;
-    }
-
-    private int appendNormalizeColumn(@NotNull Document document, int startOffset, int endOffset, int column) {
-        CharSequence text = document.getImmutableCharSequence();
-        int col = 0;
-        for (int i = startOffset; i < endOffset; i++) {
-            char c = text.charAt(i);
-            col += (c == '\t' ? 8 : 1);
-            if (col > column) {
-                return i;
+            int start = lineStartOffset + issue.location.start.columnNumber - 1;
+            int end = lineStartOffset + issue.location.end.columnNumber - 1;
+            if (end >= lineEndOffset)
+                holder.newAnnotation(severity, issue.getFormattedMessage()).afterEndOfLine().create();
+            else {
+                TextRange range = new TextRange(start, end);
+                holder.newAnnotation(severity, issue.getFormattedMessage()).range(range).create();
             }
         }
-        return startOffset;
     }
 
     private static boolean isFile(PsiFile file) {
         String fileType = file.getFileType().getName().toLowerCase();
-        switch(fileType) {
-            case "yaml":
-            case "json":
-                return file.getText().contains("AWSTemplateFormatVersion");
-            default:
-                return false;
-        }
+        return switch (fileType) {
+            case "yaml", "json" -> file.getText().contains("AWSTemplateFormatVersion");
+            default -> false;
+        };
     }
 
 }
-
-
