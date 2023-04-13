@@ -5,12 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
-import com.intellij.execution.process.ColoredProcessHandler;
-import com.intellij.execution.process.OSProcessHandler;
-import com.intellij.execution.process.ProcessAdapter;
-import com.intellij.execution.process.ProcessEvent;
-import com.intellij.execution.process.ProcessOutput;
-import com.intellij.execution.process.ProcessOutputTypes;
+import com.intellij.execution.process.*;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.util.Key;
 import org.jetbrains.annotations.NotNull;
@@ -33,14 +28,13 @@ public final class CheckRunner {
     public static CheckResult runCheck(@NotNull String exe, @NotNull String cwd, @NotNull String file, String content) {
         CheckResult result;
         try {
-            File path = new File(new File(cwd), file);
             GeneralCommandLine commandLine = createCommandLine(exe, cwd);
             if (content == null) {
-                commandLine = commandLine.withParameters("-f", "json", "-t", file);
+                commandLine = commandLine.withParameters("-c", "I", "-f", "json", "-t", file);
             } else {
                 commandLine = ((CommandLineWithInput) commandLine)
                         .withInput(content)
-                        .withParameters("-f", "json", "-t", "-");
+                        .withParameters("-c", "I", "-f", "json", "-t", "-");
             }
             ProcessOutput out = execute(commandLine);
             try {
