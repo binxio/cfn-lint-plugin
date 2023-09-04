@@ -1,5 +1,6 @@
 # Intellij plugin for validating AWS CloudFormation templates using cfn-lint
 
+Templates must include [`AWSTemplateFormatVersion`](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html)
 
 ### Install plugin
 
