@@ -10,20 +10,21 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.17
+sourceCompatibility = "17"
+targetCompatibility = "17"
 
 buildSearchableOptions.enabled = false
 
-dependencies {
-    testImplementation('junit:junit:4.13.2')
-}
-
 intellij {
     version.set('2023.1')
+    type.set("IC") // Target IDE Platform
 }
 
 patchPluginXml {
+    sinceBuild.set("231")
+    untilBuild.set("233.*")
     changeNotes = """
+       <p>0.1.27 2023.* support, improve highlights, refactor and remove deprecated code to pass JetBrains plugin validation by Philippe Jandot</p>
        <p>0.1.26 2023.1 support, handle informational lints, fix partial highlights, removed some deprecated usages by Philippe Jandot</p>
        <p>0.1.25 fixed IntelliJ 2022.3 support by Andreas Franz</p>
        <p>0.1.24 fixed IntelliJ 2022.2 support by Philippe Jandot</p>

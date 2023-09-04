@@ -17,6 +17,10 @@ public class Settings implements PersistentStateComponent<Settings> {
     public boolean highlightWholeLine;
     public boolean pluginEnabled;
 
+    public static Settings getInstance(Project project) {
+        return project.getService(Settings.class);
+    }
+
     @Nullable
     @Override
     public Settings getState() {

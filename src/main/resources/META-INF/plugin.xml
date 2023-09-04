@@ -1,8 +1,6 @@
-<idea-plugin url="https://github.com/binxio/cfn-lint-plugin">
+<idea-plugin url="https://github.com/binxio/cfn-lint-plugin" require-restart="true">
     <id>io.binx.cfnlint.plugin</id>
     <name>cfn-lint</name>
-    <version>0.1.1</version>
-    <category>Web</category>
     <vendor email="info@binx.io" url="https://github.com/binxio/">binx.io</vendor>
 
     <description><![CDATA[
@@ -21,9 +19,12 @@
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="181"/>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html on how to target different products -->
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.lang</depends>
 
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="io.binx.cfnlint.plugin.settings.Settings"/>
         <projectConfigurable instance="io.binx.cfnlint.plugin.settings.SettingsPage"/>
@@ -35,13 +36,6 @@
         <externalAnnotator language="yaml" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
         <externalAnnotator language="JSON" implementationClass="io.binx.cfnlint.plugin.CheckExternalAnnotator"/>
     </extensions>
-
-    <project-components>
-        <!-- Add your project components here -->
-        <component>
-            <implementation-class>io.binx.cfnlint.plugin.CheckProjectComponent</implementation-class>
-        </component>
-    </project-components>
 
     <actions>
         <!-- Add your actions here -->
