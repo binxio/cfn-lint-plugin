@@ -7,6 +7,7 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.options.ex.SingleConfigurableEditor;
+import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.DocumentAdapter;
 import com.intellij.ui.TextFieldWithHistory;
@@ -24,6 +25,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import java.awt.event.ItemEvent;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 public class SettingsPage implements Configurable {
@@ -41,7 +43,7 @@ public class SettingsPage implements Configurable {
 
     public SettingsPage(@NotNull final Project project) {
         this.project = project;
-        this.settings = project.getService(Settings.class);
+        this.settings = Settings.getInstance(project);
         initField();
     }
 
@@ -66,7 +68,7 @@ public class SettingsPage implements Configurable {
 
     private void setEnabledState(boolean enabled) {
         Stream.of(exeField, exeLabel,
-                treatAllIssuesCheckBox, highlightWholeLineCheckBox)
+                        treatAllIssuesCheckBox, highlightWholeLineCheckBox)
                 .forEach(c -> c.setEnabled(enabled));
     }
 
@@ -75,15 +77,22 @@ public class SettingsPage implements Configurable {
     }
 
     private void updateVersion(String exe) {
-        String version = "n.a.";
+        AtomicReference<String> version = new AtomicReference<>("n.a.");
         if (Finder.validatePath(project, exe)) {
-            try {
-                version = CheckRunner.runVersion(exe, project.getBasePath());
-            } catch (ExecutionException e) {
-                version = "error";
-            }
+            ProgressManager.getInstance().
+                    runProcessWithProgressSynchronously(
+                            () -> {
+                                try {
+                                    version.set(CheckRunner.runVersion(exe, project.getBasePath()));
+                                } catch (ExecutionException e) {
+                                    version.set("error");
+                                }
+                            },
+                            "",
+                            false,
+                            project);
         }
-        versionLabel.setText(version);
+        versionLabel.setText(version.get());
     }
 
     private void initField() {

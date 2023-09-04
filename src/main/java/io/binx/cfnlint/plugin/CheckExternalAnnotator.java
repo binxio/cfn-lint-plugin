@@ -8,12 +8,13 @@ import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.fileEditor.FileDocumentManager;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.MultiplePsiFilesPerDocumentFileViewProvider;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
-import com.intellij.util.DocumentUtil;
+import io.binx.cfnlint.plugin.settings.Settings;
 import io.binx.cfnlint.plugin.utils.CheckResult;
 import io.binx.cfnlint.plugin.utils.CheckRunner;
 import org.apache.commons.lang.StringUtils;
@@ -44,30 +45,33 @@ public class CheckExternalAnnotator extends
         if (file.getViewProvider() instanceof MultiplePsiFilesPerDocumentFileViewProvider) {
             return null;
         }
-        CheckProjectComponent component = file.getProject().getComponent(CheckProjectComponent.class);
-        if (!component.isSettingsValid() || !component.isEnabled() || !isFile(file)) {
+        CheckProjectService service = CheckProjectService.getInstance(file.getProject());
+        if (!service.isSettingsValid() || !service.isEnabled() || !isFile(file)) {
             return null;
         }
         FileDocumentManager fileDocumentManager = FileDocumentManager.getInstance();
         boolean fileModified = fileDocumentManager.isFileModified(virtualFile);
-        return new CheckAnnotationInput(component, file, fileModified ? file.getText() : null);
+        return new CheckAnnotationInput(file, fileModified ? file.getText() : null);
     }
 
     @Nullable
     @Override
     public AnnotationResult doAnnotate(CheckAnnotationInput input) {
-        CheckProjectComponent component = input.getComponent();
+        Project project = input.getProject();
+        CheckProjectService service = CheckProjectService.getInstance(project);
+        Settings settings = Settings.getInstance(project);
+
         try {
-            CheckResult result = CheckRunner.runCheck(component.getSettings().executable, input.getCwd(), input.getFilePath(), input.getFileContent());
+            CheckResult result = CheckRunner.runCheck(settings.executable, input.getCwd(), input.getFilePath(), input.getFileContent());
 
             if (StringUtils.isNotEmpty(result.getErrorOutput())) {
-                component.showInfoNotification(result.getErrorOutput(), NotificationType.WARNING);
+                service.showInfoNotification(result.getErrorOutput(), NotificationType.WARNING);
                 return null;
             }
             return new AnnotationResult(input, result);
         } catch (Exception e) {
             LOG.error("Error running  inspection: ", e);
-            component.showInfoNotification("Error running  inspection: " + e.getMessage(), NotificationType.ERROR);
+            service.showInfoNotification("Error running  inspection: " + e.getMessage(), NotificationType.ERROR);
         }
         return null;
     }
@@ -77,15 +81,16 @@ public class CheckExternalAnnotator extends
         if (annotationResult == null) {
             return;
         }
-        Document document = PsiDocumentManager.getInstance(file.getProject()).getDocument(file);
+        Project project = file.getProject();
+        Document document = PsiDocumentManager.getInstance(project).getDocument(file);
         if (document == null) {
             return;
         }
 
-        CheckProjectComponent component = annotationResult.getInput().getComponent();
+        Settings settings = Settings.getInstance(project);
         for (CheckResult.Issue issue : annotationResult.getIssues()) {
-            HighlightSeverity severity = getHighlightSeverity(issue, component.getSettings().treatAllIssuesAsWarnings);
-            createAnnotation(holder, document, issue, severity, component);
+            HighlightSeverity severity = getHighlightSeverity(issue, settings.treatAllIssuesAsWarnings);
+            createAnnotation(holder, document, issue, severity, settings);
         }
     }
 
@@ -99,31 +104,22 @@ public class CheckExternalAnnotator extends
     }
 
     private void createAnnotation(@NotNull AnnotationHolder holder, @NotNull Document document, @NotNull CheckResult.Issue issue,
-                                  @NotNull HighlightSeverity severity, CheckProjectComponent component) {
-        int errorLine = issue.location.start.lineNumber - 1;
-        boolean showErrorOnWholeLine = component.getSettings().highlightWholeLine;
+                                  @NotNull HighlightSeverity severity, @NotNull Settings settings) {
+//        LOG.warn(issue.toString());
 
-        if (errorLine < 0 || errorLine >= document.getLineCount()) {
+        int startErrorLine = issue.location.start.lineNumber - 1;
+        if (startErrorLine < 0 || startErrorLine >= document.getLineCount()) {
             return;
         }
+        int endErrorLine = issue.location.end.lineNumber - 1;
+//        LOG.warn("startErrorLine: " + startErrorLine + " endErrorLine: " + endErrorLine);
 
-        int lineStartOffset = document.getLineStartOffset(errorLine);
-        int lineEndOffset = document.getLineEndOffset(errorLine);
-
-        if (showErrorOnWholeLine) {
-            int start = DocumentUtil.getFirstNonSpaceCharOffset(document, lineStartOffset, lineEndOffset);
-            TextRange range = new TextRange(start, lineEndOffset);
-            holder.newAnnotation(severity, issue.getFormattedMessage()).range(range).create();
-        } else {
-            int start = lineStartOffset + issue.location.start.columnNumber - 1;
-            int end = lineStartOffset + issue.location.end.columnNumber - 1;
-            if (end >= lineEndOffset)
-                holder.newAnnotation(severity, issue.getFormattedMessage()).afterEndOfLine().create();
-            else {
-                TextRange range = new TextRange(start, end);
-                holder.newAnnotation(severity, issue.getFormattedMessage()).range(range).create();
-            }
-        }
+        int start = document.getLineStartOffset(startErrorLine) + issue.location.start.columnNumber - 1;
+        int end = !settings.highlightWholeLine ?
+                document.getLineStartOffset(endErrorLine) + issue.location.end.columnNumber - 1 : document.getLineEndOffset(endErrorLine);
+//        LOG.warn("start: " + start + " end: " + end);
+        TextRange range = new TextRange(start, end);
+        holder.newAnnotation(severity, issue.getFormattedMessage()).range(range).create();
     }
 
     private static boolean isFile(PsiFile file) {
