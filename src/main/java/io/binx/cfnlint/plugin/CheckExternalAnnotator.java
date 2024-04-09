@@ -17,7 +17,7 @@ import com.intellij.psi.PsiFile;
 import io.binx.cfnlint.plugin.settings.Settings;
 import io.binx.cfnlint.plugin.utils.CheckResult;
 import io.binx.cfnlint.plugin.utils.CheckRunner;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
