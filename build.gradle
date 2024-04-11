@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '1.13.3'
+    id 'org.jetbrains.intellij' version '1.17.3'
     id 'io.freefair.git-version' version '8.0.1'
 }
 
@@ -16,13 +16,13 @@ targetCompatibility = "17"
 buildSearchableOptions.enabled = false
 
 intellij {
-    version.set('2023.1')
+    version.set('2024.1')
     type.set("IC") // Target IDE Platform
 }
 
 patchPluginXml {
-    sinceBuild.set("231")
-    untilBuild.set("233.*")
+    sinceBuild.set("241")
+    untilBuild.set("243.*")
     changeNotes = """
        <p>0.1.27 2023.* support, improve highlights, refactor and remove deprecated code to pass JetBrains plugin validation by Philippe Jandot</p>
        <p>0.1.26 2023.1 support, handle informational lints, fix partial highlights, removed some deprecated usages by Philippe Jandot</p>
