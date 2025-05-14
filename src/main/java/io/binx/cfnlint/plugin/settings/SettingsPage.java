@@ -106,7 +106,7 @@ public class SettingsPage implements Configurable {
                 return Finder.findAllExe();
             }
         });
-        SwingHelper.installFileCompletionAndBrowseDialog(project, exeField, "Select Exe", FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor());
+        SwingHelper.installFileCompletionAndBrowseDialog(project, exeField, FileChooserDescriptorFactory.createSingleFileNoJarsDescriptor().withTitle("Select Exe"));
     }
 
     @Nls
