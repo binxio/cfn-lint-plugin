@@ -26,6 +26,7 @@ intellijPlatform {
             sinceBuild = "251"
         }
         changeNotes = """
+       <p>0.2.0 2025.* support by Philippe Jandot</p>
        <p>0.1.28 2024.* support by Philippe Jandot</p>
        <p>0.1.27 2023.* support, improve highlights, refactor and remove deprecated code to pass JetBrains plugin validation by Philippe Jandot</p>
        <p>0.1.26 2023.1 support, handle informational lints, fix partial highlights, removed some deprecated usages by Philippe Jandot</p>
