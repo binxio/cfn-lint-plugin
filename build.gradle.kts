@@ -1,29 +1,31 @@
 plugins {
-    id 'java'
-    id 'org.jetbrains.intellij' version '1.17.3'
-    id 'io.freefair.git-version' version '8.0.1'
+    id("java")
+    id("org.jetbrains.intellij.platform") version "2.5.0"
+    id("io.freefair.git-version") version "8.13.1"
 }
 
-group 'io.binx.cfnlint.plugin'
+group = "io.binx.cfnlint.plugin"
 
 repositories {
     mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
 }
 
-sourceCompatibility = "17"
-targetCompatibility = "17"
-
-buildSearchableOptions.enabled = false
-
-intellij {
-    version.set('2024.1')
-    type.set("IC") // Target IDE Platform
+dependencies {
+    intellijPlatform {
+        intellijIdeaCommunity("2025.1.1.1")
+    }
 }
 
-patchPluginXml {
-    sinceBuild.set("241")
-    untilBuild.set("243.*")
-    changeNotes = """
+intellijPlatform {
+    buildSearchableOptions = false
+    pluginConfiguration {
+        ideaVersion {
+            sinceBuild = "251"
+        }
+        changeNotes = """
        <p>0.1.28 2024.* support by Philippe Jandot</p>
        <p>0.1.27 2023.* support, improve highlights, refactor and remove deprecated code to pass JetBrains plugin validation by Philippe Jandot</p>
        <p>0.1.26 2023.1 support, handle informational lints, fix partial highlights, removed some deprecated usages by Philippe Jandot</p>
@@ -52,12 +54,14 @@ patchPluginXml {
        <p>0.1.2 official build for 2018.2</p>
        <p>0.1.1 updated to support from build 181 and upwards</p>
        <p>0.1.0 First experimental version based upon <a href="https://github.com/pwielgolaski/shellcheck-plugin">shellcheck</a></p>
-    """
+    """.trim()
+    }
 }
 
-publishPlugin {
-  token = intellijPublishToken
+tasks {
+    publishPlugin {
+        token = providers.gradleProperty("intellijPublishToken")
+    }
 }
 
-apply plugin: 'org.jetbrains.intellij'
-apply plugin: "io.freefair.git-version"
+apply(plugin = "io.freefair.git-version")
