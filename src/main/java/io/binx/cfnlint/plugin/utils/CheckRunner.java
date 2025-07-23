@@ -30,11 +30,11 @@ public final class CheckRunner {
         try {
             GeneralCommandLine commandLine = createCommandLine(exe, cwd);
             if (content == null) {
-                commandLine = commandLine.withParameters("-c", "I", "-f", "json", "-t", file);
+                commandLine = commandLine.withParameters("-c", "I", "-f", "json", file);
             } else {
                 commandLine = ((CommandLineWithInput) commandLine)
                         .withInput(content)
-                        .withParameters("-c", "I", "-f", "json", "-t", "-");
+                        .withParameters("-c", "I", "-f", "json");
             }
             ProcessOutput out = execute(commandLine);
             try {
