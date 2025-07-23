@@ -5,5 +5,5 @@ gradlew
 gradlew.bat
 .idea/
 build/
-
+.intellijPlatform/
 *.iml
